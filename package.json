@@ -11,7 +11,11 @@
 		"format": "prettier . --write",
 		"format:check": "prettier . --check",
 		"doctor": "npx -y react-doctor@latest .",
-		"lens:web": "npx next-lens web"
+		"lens:web": "npx next-lens web",
+        "postinstall": "prisma generate",
+        "prisma:migrate": "npx prisma migrate dev",
+        "prisma:generate": "npx prisma generate",
+        "prisma:local": "npx prisma studio"
 	},
 	"dependencies": {
 		"@prisma/client": "^7.8.0",
