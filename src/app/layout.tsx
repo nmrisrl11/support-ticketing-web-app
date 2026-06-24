@@ -15,9 +15,21 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: "ResolveHub",
+	title: "ResolveHub - Simple Task Tracking Made Easy",
 	description:
-		"ResolveHub is a powerful support ticketing system that helps businesses manage customer requests, track issues, automate workflows, and improve support efficiency.",
+		"ResolveHub is a lightweight task tracking app for organizing everyday work. It lets you create and manage simple tickets with priority levels, helping you keep tasks clear, structured, and easy to follow.",
+	keywords: [
+		"task-tracker",
+		"task-management",
+		"ticket-tracker",
+		"ticket-management",
+		"todo-app",
+		"task-organizer",
+		"priority-tracking",
+		"work-tracker",
+		"productivity-tool",
+		"resolvehub",
+	],
 };
 
 export default function RootLayout({

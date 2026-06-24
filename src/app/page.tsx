@@ -16,10 +16,10 @@ function HomePage() {
 							pointerClassName="text-orange-500 h-3 w-3"
 							containerClassName="inline-block mx-1"
 						>
-							<span className="relative z-10">powerful support ticketing system</span>
+							<span className="relative z-10">simple task tracker</span>
 						</PointerHighlight>
-						that helps businesses manage customer requests, track issues, automate workflows, and
-						improve support efficiency.
+						for creating and managing tickets with ease. Keep your work organized with clear
+						subjects, descriptions, and priority levels.
 					</div>
 
 					<div className="space-x-1.5">
@@ -27,7 +27,7 @@ function HomePage() {
 							<Link href="tickets">Track Status</Link>
 						</Button>
 						<Button size="lg" variant="default" asChild>
-							<Link href="tickets/new">Create Request</Link>
+							<Link href="tickets/new">Create Ticket</Link>
 						</Button>
 					</div>
 				</div>
