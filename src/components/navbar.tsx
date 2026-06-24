@@ -9,7 +9,7 @@ import Link from "next/link";
 
 const NAV_ITEMS = [
 	{ name: "Home", link: "/" },
-	{ name: "Tickets", link: "/tickets" },
+	{ name: "Tickets", link: "/tickets/new" },
 ];
 
 const MobileNav = () => {
