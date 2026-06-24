@@ -1,7 +1,8 @@
+import Link from "next/link";
+
 import HeroTable from "@/components/hero-table";
 import { Button } from "@/components/ui/button";
 import { PointerHighlight } from "@/components/ui/pointer-highlight";
-import Link from "next/link";
 
 function HomePage() {
 	return (
