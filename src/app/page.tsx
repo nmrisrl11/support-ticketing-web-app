@@ -8,7 +8,7 @@ function HomePage() {
 		<main className="mx-auto flex h-dvh w-full max-w-5xl flex-col justify-center gap-3">
 			<section className="px-6 py-12">
 				<div className="flex flex-col justify-center gap-3">
-					<h1 className="text-4xl font-bold sm:text-7xl">ResolveHub</h1>
+					<h1 className="gradient-text text-4xl font-extrabold sm:text-7xl">ResolveHub</h1>
 					<div className="w-full max-w-3xl tracking-wide sm:text-lg">
 						a
 						<PointerHighlight

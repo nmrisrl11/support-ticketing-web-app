@@ -128,3 +128,10 @@
 		@apply font-sans;
 	}
 }
+
+@utility gradient-text {
+	background-image: linear-gradient(to top, var(--color-orange-500), var(--color-yellow-600));
+	background-clip: text;
+	-webkit-background-clip: text;
+	color: transparent;
+}
