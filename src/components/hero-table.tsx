@@ -1,5 +1,4 @@
 import { CircleCheckBigIcon, CircleDashedIcon } from "lucide-react";
-
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -11,11 +10,11 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
+import { Priority, PRIORITY_COLORS } from "@/constants/priority";
 
-type Priority = "Low" | "Medium" | "High";
 type Status = "Pending" | "Done";
 
-interface DataTableProps {
+interface TicketsTableProps {
 	subject: string;
 	description: string;
 	createdAt: number;
@@ -23,7 +22,7 @@ interface DataTableProps {
 	status: Status;
 }
 
-const data: DataTableProps[] = [
+const tickets: TicketsTableProps[] = [
 	{
 		subject: "API Integration",
 		description: "Connect frontend application to REST API endpoints and handle error responses",
@@ -89,39 +88,37 @@ function HeroTable() {
 								</TableRow>
 							</TableHeader>
 							<TableBody>
-								{data.map((item) => (
-									<TableRow key={item.subject}>
-										<TableCell className="hidden md:table-cell">{item.subject}</TableCell>
+								{tickets.map((ticket) => (
+									<TableRow key={ticket.subject}>
+										<TableCell className="hidden md:table-cell">{ticket.subject}</TableCell>
 										<TableCell className="pl-0 align-top md:pl-4">
 											<div className="flex flex-col gap-2">
 												<div className="flex items-baseline justify-between gap-1 md:hidden">
 													<div className="flex items-center gap-1">
-														<span className="text-sm font-medium">{item.subject}</span>
-														{item.status === "Done" ? (
+														<span className="text-sm font-medium">{ticket.subject}</span>
+														{ticket.status === "Done" ? (
 															<Badge className="bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300">
 																<CircleCheckBigIcon data-icon="inline-start" />
-																{item.status}
+																{ticket.status}
 															</Badge>
 														) : (
 															<Badge className="bg-orange-50 text-orange-700 dark:bg-orange-950 dark:text-orange-300">
 																<CircleDashedIcon data-icon="inline-start" />
-																{item.status}
+																{ticket.status}
 															</Badge>
 														)}
 
 														<span
 															className={cn(
 																"ml-1 block h-1.5 w-4 rounded-full md:hidden",
-																item.priority === "High" && "bg-red-400",
-																item.priority === "Medium" && "bg-orange-400",
-																item.priority === "Low" && "bg-blue-400",
+																PRIORITY_COLORS[ticket.priority],
 															)}
 														/>
 													</div>
-													<span className="text-muted-foreground text-xs">{item.createdAt}</span>
+													<span className="text-muted-foreground text-xs">{ticket.createdAt}</span>
 												</div>
 												<p className="text-muted-foreground md:text-primary text-sm">
-													{item.description}
+													{ticket.description}
 												</p>
 											</div>
 										</TableCell>
@@ -131,24 +128,22 @@ function HeroTable() {
 												<span
 													className={cn(
 														"block h-6 w-1.5 rounded-full",
-														item.priority === "High" && "bg-red-400",
-														item.priority === "Medium" && "bg-orange-400",
-														item.priority === "Low" && "bg-blue-400",
+														PRIORITY_COLORS[ticket.priority],
 													)}
-												></span>
-												{item.priority}
+												/>
+												{ticket.priority}
 											</div>
 										</TableCell>
 										<TableCell className="hidden md:table-cell">
-											{item.status === "Done" ? (
+											{ticket.status === "Done" ? (
 												<Badge className="bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300">
 													<CircleCheckBigIcon data-icon="inline-start" />
-													{item.status}
+													{ticket.status}
 												</Badge>
 											) : (
 												<Badge className="bg-orange-50 text-orange-700 dark:bg-orange-950 dark:text-orange-300">
 													<CircleDashedIcon data-icon="inline-start" />
-													{item.status}
+													{ticket.status}
 												</Badge>
 											)}
 										</TableCell>
