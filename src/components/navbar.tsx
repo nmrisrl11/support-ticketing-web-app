@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
 	{ name: "Home", link: "/" },
-	{ name: "Tickets", link: "/tickets/new" },
+	{ name: "Tickets", link: "/tickets" },
 ];
 
 const MobileNav = () => {
