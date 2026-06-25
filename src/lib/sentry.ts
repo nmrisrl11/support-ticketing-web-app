@@ -1,5 +1,5 @@
-import * as Sentry from "@sentry/nextjs";
 import type { SeverityLevel } from "@sentry/core";
+import * as Sentry from "@sentry/nextjs";
 
 export function logEvent<TData extends Record<string, unknown>>(
 	message: string,

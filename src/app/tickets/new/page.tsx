@@ -1,4 +1,4 @@
-import NewTicketForm from "./ticket-form";
+import NewTicketForm from "./components/ticket-form";
 
 function NewTicketPage() {
 	return (

@@ -1,4 +1,6 @@
+import { Priority, PRIORITY_COLORS } from "@/constants/priority";
 import { CircleCheckBigIcon, CircleDashedIcon } from "lucide-react";
+
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -10,7 +12,6 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { Priority, PRIORITY_COLORS } from "@/constants/priority";
 
 type Status = "Pending" | "Done";
 

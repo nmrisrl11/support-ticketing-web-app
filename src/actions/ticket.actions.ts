@@ -1,8 +1,9 @@
 "use server";
 
-import { prisma } from "@/db/prisma";
-import { logEvent } from "@/lib/sentry";
 import { revalidatePath } from "next/cache";
+import { prisma } from "@/db/prisma";
+
+import { logEvent } from "@/lib/sentry";
 
 export async function createTicket(
 	prevState: { success: boolean; message: string },
@@ -62,5 +63,23 @@ export async function getTickets() {
 		logEvent("Error fetching tickets", "ticket", {}, "error", error);
 
 		return [];
+	}
+}
+
+export async function getTicketById(id: string) {
+	try {
+		const ticket = await prisma.ticket.findUnique({
+			where: { id: Number(id) },
+		});
+
+		if (!ticket) {
+			logEvent("Ticket not found", "ticket", { ticketId: id }, "warning");
+		}
+
+		return ticket;
+	} catch (error) {
+		logEvent("Error fetching ticket details", "ticket", { ticketId: id }, "error", error);
+
+		return null;
 	}
 }
