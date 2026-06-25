@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { createTicket } from "@/actions/ticket.actions";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -16,12 +16,22 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 function NewTicketPage() {
+	const router = useRouter();
 	const [state, formAction] = useActionState(createTicket, {
 		success: false,
 		message: "",
 	});
+
+	useEffect(() => {
+		if (state.success) {
+			toast.success("Ticket submitted successfully!");
+			router.push("/tickets");
+		}
+	}, [state.success, router]);
 
 	return (
 		<main className="mx-auto flex h-dvh w-full max-w-5xl flex-col justify-center gap-3">
