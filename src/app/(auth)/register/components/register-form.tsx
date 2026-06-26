@@ -1,14 +1,15 @@
 "use client";
 
+import { useActionState, useEffect } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { registerUser } from "@/actions/auth.actions";
+import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useActionState, useEffect } from "react";
-import { toast } from "sonner";
 
 const initialState = {
 	success: false,

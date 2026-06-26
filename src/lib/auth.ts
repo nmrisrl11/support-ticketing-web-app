@@ -10,10 +10,10 @@ const secret = new TextEncoder().encode(AUTH_SECRET);
 const cookieName = "auth-token";
 
 //! Encrypt and sign token
-interface SignAuthTokenPayload extends JWTPayload {
+export interface AuthTokenPayload extends JWTPayload {
 	userId: string;
 }
-export async function signAuthToken(payload: SignAuthTokenPayload) {
+export async function signAuthToken(payload: AuthTokenPayload) {
 	try {
 		const token = await new SignJWT(payload)
 			.setProtectedHeader({ alg: "HS256" })

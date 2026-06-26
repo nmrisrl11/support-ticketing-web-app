@@ -1,11 +1,12 @@
-"use client";
-
 import Link from "next/link";
 import { Menu } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { getCurrentUser } from "@/lib/current-user";
 import { cn } from "@/lib/utils";
+
+import LogoutButton from "./logout";
 
 const NAV_ITEMS = [
 	{ name: "Home", link: "/" },
@@ -45,7 +46,9 @@ const MobileNav = () => {
 	);
 };
 
-function Navbar() {
+async function Navbar() {
+	const user = await getCurrentUser();
+
 	return (
 		<section
 			className={cn(
@@ -64,9 +67,13 @@ function Navbar() {
 			</div>
 
 			<div className="hidden items-center justify-center gap-1.5 md:flex">
-				<Button variant="default" className="h-auto rounded-lg px-3 py-1.5 text-xs">
-					<Link href="/register">Get Started</Link>
-				</Button>
+				{user ? (
+					<LogoutButton />
+				) : (
+					<Button variant="default" className="h-auto rounded-lg px-3 py-1.5 text-xs">
+						<Link href="/register">Get Started</Link>
+					</Button>
+				)}
 			</div>
 		</section>
 	);

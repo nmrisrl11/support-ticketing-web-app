@@ -1,9 +1,10 @@
 "use server";
 
 import { prisma } from "@/db/prisma";
-import { logEvent } from "@/lib/sentry";
 import bcrypt from "bcryptjs";
-import { signAuthToken, setAuthCookie } from "@/lib/auth";
+
+import { removeAuthCookie, setAuthCookie, signAuthToken } from "@/lib/auth";
+import { logEvent } from "@/lib/sentry";
 
 type ResponseResult = {
 	success: boolean;
@@ -51,5 +52,20 @@ export async function registerUser(
 		logEvent("Unexpected error during registration", "auth", {}, "error", error);
 
 		return { success: false, message: "Something went wrong, please try again." };
+	}
+}
+
+//! Log user out and remove auth cookie
+export async function logoutUser(): Promise<ResponseResult> {
+	try {
+		await removeAuthCookie();
+
+		logEvent("User logged out successfully", "auth", {}, "info");
+
+		return { success: true, message: "Logout successful" };
+	} catch (error) {
+		logEvent("Unexpected error during logout", "auth", {}, "error", error);
+
+		return { success: false, message: "Logout failed, please try again." };
 	}
 }
