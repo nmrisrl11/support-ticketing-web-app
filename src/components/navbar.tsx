@@ -63,9 +63,9 @@ function Navbar() {
 				))}
 			</div>
 
-			<div className="hidden md:block">
+			<div className="hidden items-center justify-center gap-1.5 md:flex">
 				<Button variant="default" className="h-auto rounded-lg px-3 py-1.5 text-xs">
-					Log in
+					<Link href="/register">Get Started</Link>
 				</Button>
 			</div>
 		</section>
