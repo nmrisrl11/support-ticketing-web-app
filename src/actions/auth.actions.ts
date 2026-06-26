@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 
 import { removeAuthCookie, setAuthCookie, signAuthToken } from "@/lib/auth";
 import { logEvent } from "@/lib/sentry";
+import { redirect } from "next/navigation";
 
 type ResponseResult = {
 	success: boolean;
@@ -100,15 +101,20 @@ export async function loginUser(
 
 //! Log user out and remove auth cookie
 export async function logoutUser(): Promise<ResponseResult> {
+	let isSuccess = false;
+
 	try {
 		await removeAuthCookie();
-
 		logEvent("User logged out successfully", "auth", {}, "info");
-
-		return { success: true, message: "Logout successful" };
+		isSuccess = true;
 	} catch (error) {
 		logEvent("Unexpected error during logout", "auth", {}, "error", error);
-
 		return { success: false, message: "Logout failed, please try again." };
 	}
+
+	if (isSuccess) {
+		redirect("/login");
+	}
+
+	return { success: false, message: "Unexpected state reached." };
 }
