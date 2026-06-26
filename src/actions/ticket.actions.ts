@@ -56,7 +56,7 @@ export async function getTickets() {
 	try {
 		const tickets = await prisma.ticket.findMany({ orderBy: { createdAt: "desc" } });
 
-		logEvent("Fetched ticket list", "ticket", { count: tickets.length }, "info");
+		// logEvent("Fetched ticket list", "ticket", { count: tickets.length }, "info");
 
 		return tickets;
 	} catch (error) {

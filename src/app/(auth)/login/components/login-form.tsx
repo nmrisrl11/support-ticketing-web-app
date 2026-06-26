@@ -1,9 +1,9 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { loginUser } from "@/actions/auth.actions";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { registerUser } from "@/actions/auth.actions";
+import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -16,13 +16,13 @@ const initialState = {
 	message: "",
 };
 
-function RegisterForm() {
+function LoginForm() {
 	const router = useRouter();
-	const [state, formAction] = useActionState(registerUser, initialState);
+	const [state, formAction] = useActionState(loginUser, initialState);
 
 	useEffect(() => {
 		if (state.success) {
-			toast.success("Registration successful!");
+			toast.success("Login successful!");
 			router.push("/tickets");
 			router.refresh();
 		} else if (state.message) {
@@ -36,22 +36,9 @@ function RegisterForm() {
 				<div className="flex flex-col items-center gap-6">
 					<Card className="w-full max-w-sm min-w-sm">
 						<CardContent>
-							<h1 className="mb-6 text-xl font-semibold">Create an account</h1>
+							<h1 className="mb-6 text-xl font-semibold">Login your account</h1>
 
 							<form action={formAction} className="flex flex-col gap-6">
-								<div className="space-y-3">
-									<Label htmlFor="name">Name</Label>
-
-									<Input
-										id="name"
-										name="name"
-										placeholder="Enter Name"
-										type="text"
-										className="py-6"
-										autoComplete="off"
-									/>
-								</div>
-
 								<div className="space-y-3">
 									<Label htmlFor="email">Email</Label>
 
@@ -80,7 +67,7 @@ function RegisterForm() {
 
 								<div className="flex flex-col gap-1.5">
 									<Button size="lg" type="submit">
-										Create Account
+										Login
 									</Button>
 								</div>
 							</form>
@@ -88,10 +75,10 @@ function RegisterForm() {
 					</Card>
 
 					<div className="text-muted-foreground flex justify-center gap-1 text-sm">
-						<p>Already have an account?</p>
+						<p>Need an account?</p>
 
-						<Link href="/login" className="text-primary font-medium hover:underline">
-							Log in
+						<Link href="/register" className="text-primary font-medium hover:underline">
+							Register
 						</Link>
 					</div>
 				</div>
@@ -100,4 +87,4 @@ function RegisterForm() {
 	);
 }
 
-export default RegisterForm;
+export default LoginForm;
