@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookieName } from "./lib/auth";
+import { cookieName, verifyAuthToken } from "./lib/auth";
 
 const AUTH_ROUTES = ["/register", "/login"];
 const PROTECTED_ROUTES = ["/tickets"];
 
-export function proxy(req: NextRequest): NextResponse {
+export async function proxy(req: NextRequest): Promise<NextResponse> {
 	const TOKEN = req.cookies.get(cookieName)?.value;
 	const { pathname } = req.nextUrl;
 
@@ -12,15 +12,35 @@ export function proxy(req: NextRequest): NextResponse {
 	const isProtectedRoute = PROTECTED_ROUTES.some((route) => pathname.startsWith(route));
 
 	//! If unauthenticated user go to PROTECTED_ROUTES
-	if (!TOKEN && isProtectedRoute) {
-		const targetPath = new URL("/login", req.url);
-		return NextResponse.redirect(targetPath);
+	if (isProtectedRoute) {
+		if (!TOKEN) return NextResponse.redirect(new URL("/login", req.url));
+
+		try {
+			await verifyAuthToken(TOKEN);
+			return NextResponse.next();
+		} catch (error) {
+			//! Token is invalid or expired. Clean the cookie and redirect to login page.
+			const response = NextResponse.redirect(new URL("/login", req.url));
+			response.cookies.delete(cookieName);
+
+			return response;
+		}
 	}
 
 	//! If authenticated user go to AUTH_ROUTES
-	if (TOKEN && isAuthRoute) {
-		const ticketsPath = new URL("/tickets", req.url);
-		return NextResponse.redirect(ticketsPath);
+	if (isAuthRoute) {
+		if (!TOKEN) return NextResponse.next();
+
+		try {
+			await verifyAuthToken(TOKEN);
+			return NextResponse.redirect(new URL("/tickets", req.url));
+		} catch (error) {
+			//! Token is invalid or expired. Clean the cookie but let the user stay on the login page.
+			const response = NextResponse.next();
+			response.cookies.delete(cookieName);
+
+			return response;
+		}
 	}
 
 	return NextResponse.next();
