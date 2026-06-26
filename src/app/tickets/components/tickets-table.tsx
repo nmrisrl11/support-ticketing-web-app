@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Priority, PRIORITY_COLORS } from "@/constants/priority";
-import { CircleCheckBigIcon, CircleDashedIcon } from "lucide-react";
+import { CircleCheckBigIcon, CircleDashedIcon, HashIcon } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,15 @@ import {
 import { cn } from "@/lib/utils";
 
 import ViewTicketDialog from "./view-ticket-dialog";
+import {
+	Empty,
+	EmptyContent,
+	EmptyDescription,
+	EmptyHeader,
+	EmptyMedia,
+	EmptyTitle,
+} from "@/components/ui/empty";
+import Link from "next/link";
 
 interface TicketsTableProps {
 	id: number;
@@ -29,7 +38,7 @@ interface TicketsTableProps {
 function TicketsTable({ tickets }: { tickets: TicketsTableProps[] }) {
 	const [selectedTicketId, setSelectedTicketId] = useState<string | null>(null);
 
-	return (
+	return tickets.length > 0 ? (
 		<>
 			<Table>
 				<TableHeader>
@@ -125,6 +134,25 @@ function TicketsTable({ tickets }: { tickets: TicketsTableProps[] }) {
 
 			<ViewTicketDialog ticketId={selectedTicketId} onClose={() => setSelectedTicketId(null)} />
 		</>
+	) : (
+		<Empty className="bg-secondary border border-dashed">
+			<EmptyHeader>
+				<EmptyMedia variant="icon" className="bg-background/50">
+					<HashIcon />
+				</EmptyMedia>
+
+				<EmptyTitle>No Tickets Found</EmptyTitle>
+				<EmptyDescription>
+					Create a ticket to start tracking issues, requests, or tasks.
+				</EmptyDescription>
+			</EmptyHeader>
+
+			<EmptyContent>
+				<Button size="lg" variant="default" asChild>
+					<Link href="tickets/new">Create Ticket</Link>
+				</Button>
+			</EmptyContent>
+		</Empty>
 	);
 }
 

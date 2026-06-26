@@ -15,8 +15,8 @@ async function TicketsPage() {
 						Manage <span className="gradient-text">Tickets</span>
 					</h1>
 					<div className="w-full max-w-3xl tracking-wide sm:text-lg">
-						Create a new ticket by adding a subject, description, and priority level so you can keep
-						track of what needs to be done.
+						View ticket details, track current progress, and update ticket statuses to keep requests
+						moving through the resolution process.
 					</div>
 				</div>
 
