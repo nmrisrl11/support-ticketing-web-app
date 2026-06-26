@@ -21,7 +21,7 @@ async function TicketsPage() {
 				</div>
 
 				<div className="mt-12">
-					<Card className="relative ring-0">
+					<Card className="relative dark:ring-0">
 						<CardContent>
 							<div className="container px-0">
 								<TicketsTable tickets={tickets} />
