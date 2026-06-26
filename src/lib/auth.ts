@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { env } from "@/env";
-import { jwtVerify, SignJWT } from "jose";
+import { JWTPayload, jwtVerify, SignJWT } from "jose";
 
 import { logEvent } from "./sentry";
 
@@ -10,7 +10,10 @@ const secret = new TextEncoder().encode(AUTH_SECRET);
 const cookieName = "auth-token";
 
 //! Encrypt and sign token
-export async function signAuthToken(payload: any) {
+interface SignAuthTokenPayload extends JWTPayload {
+	userId: string;
+}
+export async function signAuthToken(payload: SignAuthTokenPayload) {
 	try {
 		const token = await new SignJWT(payload)
 			.setProtectedHeader({ alg: "HS256" })
