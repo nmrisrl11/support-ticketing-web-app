@@ -7,7 +7,7 @@ import { logEvent } from "./sentry";
 const AUTH_SECRET = env.AUTH_SECRET;
 
 const secret = new TextEncoder().encode(AUTH_SECRET);
-const cookieName = "auth-token";
+export const cookieName = "auth-token";
 
 //! Encrypt and sign token
 export interface AuthTokenPayload extends JWTPayload {
