@@ -1,9 +1,11 @@
 import type { SeverityLevel } from "@sentry/core";
 import * as Sentry from "@sentry/nextjs";
 
+type Category = "general" | "auth" | "ticket";
+
 export function logEvent<TData extends Record<string, unknown>>(
 	message: string,
-	category: string = "general",
+	category: Category = "general",
 	data?: TData,
 	level: SeverityLevel = "info",
 	error?: unknown,
