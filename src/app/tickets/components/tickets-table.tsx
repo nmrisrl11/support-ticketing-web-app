@@ -1,11 +1,20 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Priority, PRIORITY_COLORS } from "@/constants/priority";
 import { CircleCheckBigIcon, CircleDashedIcon, HashIcon } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+	Empty,
+	EmptyContent,
+	EmptyDescription,
+	EmptyHeader,
+	EmptyMedia,
+	EmptyTitle,
+} from "@/components/ui/empty";
 import {
 	Table,
 	TableBody,
@@ -17,15 +26,6 @@ import {
 import { cn } from "@/lib/utils";
 
 import ViewTicketDialog from "./view-ticket-dialog";
-import {
-	Empty,
-	EmptyContent,
-	EmptyDescription,
-	EmptyHeader,
-	EmptyMedia,
-	EmptyTitle,
-} from "@/components/ui/empty";
-import Link from "next/link";
 
 interface TicketsTableProps {
 	id: number;

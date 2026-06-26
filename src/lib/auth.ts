@@ -1,9 +1,10 @@
-import { getEnv } from "@/config/env";
-import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
+import { env } from "@/env";
+import { jwtVerify, SignJWT } from "jose";
+
 import { logEvent } from "./sentry";
 
-const AUTH_SECRET = getEnv("AUTH_SECRET");
+const AUTH_SECRET = env.AUTH_SECRET;
 
 const secret = new TextEncoder().encode(AUTH_SECRET);
 const cookieName = "auth-token";
