@@ -55,6 +55,49 @@ export async function registerUser(
 	}
 }
 
+//! Login user
+export async function loginUser(
+	prevState: ResponseResult,
+	formData: FormData,
+): Promise<ResponseResult> {
+	try {
+		const email = formData.get("email") as string;
+		const password = formData.get("password") as string;
+
+		if (!email || !password) {
+			logEvent("Validation Error: Missing login fields", "auth", { email }, "warning");
+
+			return { success: false, message: "Email and password are required." };
+		}
+
+		const user = await prisma.user.findUnique({ where: { email } });
+
+		if (!user || !user.password) {
+			logEvent(`Login Failed: User not found - ${email}`, "auth", { email }, "warning");
+
+			return { success: false, message: "Invalid email or password" };
+		}
+
+		const isMatched = await bcrypt.compare(password, user.password);
+
+		if (!isMatched) {
+			logEvent(`Login Failed: Incorrect password`, "auth", { email }, "warning");
+
+			return { success: false, message: "Invalid email or password" };
+		}
+
+		//! Sign and set auth token
+		const token = await signAuthToken({ userId: user.id });
+		await setAuthCookie(token);
+
+		return { success: true, message: "Login successful" };
+	} catch (error) {
+		logEvent("Unexpected error during login", "auth", {}, "error", error);
+
+		return { success: false, message: "Something went wrong, please try again." };
+	}
+}
+
 //! Log user out and remove auth cookie
 export async function logoutUser(): Promise<ResponseResult> {
 	try {
