@@ -25,7 +25,7 @@ function TicketRow({ ticket, setSelectedTicketId }: TicketRowProps) {
 						<div className="flex items-center gap-1">
 							<span className="text-sm font-medium">{ticket.subject}</span>
 
-							{ticket.status === "Done" ? (
+							{ticket.status === "Closed" ? (
 								<Badge className="bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300">
 									<CircleCheckBigIcon data-icon="inline-start" />
 									{ticket.status}
@@ -63,7 +63,7 @@ function TicketRow({ ticket, setSelectedTicketId }: TicketRowProps) {
 			</TableCell>
 
 			<TableCell className="hidden md:table-cell">
-				{ticket.status === "Done" ? (
+				{ticket.status === "Closed" ? (
 					<Badge className="bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300">
 						<CircleCheckBigIcon data-icon="inline-start" />
 						{ticket.status}

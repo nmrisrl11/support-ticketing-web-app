@@ -13,12 +13,11 @@ import {
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 
-type Status = "Pending" | "Done";
+type Status = "Open" | "Closed";
 
 interface TicketsTableProps {
 	subject: string;
 	description: string;
-	createdAt: number;
 	priority: Priority;
 	status: Status;
 }
@@ -27,37 +26,32 @@ const tickets: TicketsTableProps[] = [
 	{
 		subject: "API Integration",
 		description: "Connect frontend application to REST API endpoints and handle error responses",
-		createdAt: 2024,
 		priority: "High",
-		status: "Done",
+		status: "Closed",
 	},
 	{
 		subject: "Database Optimization",
 		description: "Improve query performance by adding indexes and optimizing database schema",
-		createdAt: 2024,
 		priority: "Medium",
-		status: "Pending",
+		status: "Open",
 	},
 	{
 		subject: "Unit Testing",
 		description: "Write comprehensive unit tests for utility functions and service layers",
-		createdAt: 2024,
 		priority: "High",
-		status: "Done",
+		status: "Closed",
 	},
 	{
 		subject: "UI Refactoring",
 		description: "Refactor reusable components to improve maintainability and code consistency",
-		createdAt: 2025,
 		priority: "Low",
-		status: "Pending",
+		status: "Open",
 	},
 	{
 		subject: "Code Documentation",
 		description: "Document project architecture, API contracts, and setup instructions",
-		createdAt: 2025,
 		priority: "Low",
-		status: "Done",
+		status: "Closed",
 	},
 ];
 
@@ -76,7 +70,7 @@ function HeroTable() {
 
 									<TableHead>
 										<span className="text-primary hidden font-bold md:block">Description</span>
-										<span className="text-primary block font-bold md:hidden">Project</span>
+										<span className="text-primary block font-bold md:hidden">Tickets</span>
 									</TableHead>
 
 									<TableHead className="text-primary hidden font-bold md:table-cell">
@@ -97,7 +91,7 @@ function HeroTable() {
 												<div className="flex items-baseline justify-between gap-1 md:hidden">
 													<div className="flex items-center gap-1">
 														<span className="text-sm font-medium">{ticket.subject}</span>
-														{ticket.status === "Done" ? (
+														{ticket.status === "Closed" ? (
 															<Badge className="bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300">
 																<CircleCheckBigIcon data-icon="inline-start" />
 																{ticket.status}
@@ -116,8 +110,8 @@ function HeroTable() {
 															)}
 														/>
 													</div>
-													<span className="text-muted-foreground text-xs">{ticket.createdAt}</span>
 												</div>
+
 												<p className="text-muted-foreground md:text-primary text-sm">
 													{ticket.description}
 												</p>
@@ -136,7 +130,7 @@ function HeroTable() {
 											</div>
 										</TableCell>
 										<TableCell className="hidden md:table-cell">
-											{ticket.status === "Done" ? (
+											{ticket.status === "Closed" ? (
 												<Badge className="bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300">
 													<CircleCheckBigIcon data-icon="inline-start" />
 													{ticket.status}
