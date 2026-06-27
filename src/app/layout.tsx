@@ -32,6 +32,9 @@ export const metadata: Metadata = {
 		"productivity-tool",
 		"resolvehub",
 	],
+	other: {
+		"apple-mobile-web-app-title": "ResolveHub",
+	},
 };
 
 export default function RootLayout({
