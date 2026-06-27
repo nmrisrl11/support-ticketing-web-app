@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+
 import { cookieName, verifyAuthToken } from "./lib/auth";
 
 const AUTH_ROUTES = ["/register", "/login"];

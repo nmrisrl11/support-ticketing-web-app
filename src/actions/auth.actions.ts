@@ -1,11 +1,11 @@
 "use server";
 
+import { redirect } from "next/navigation";
 import { prisma } from "@/db/prisma";
 import bcrypt from "bcryptjs";
 
 import { removeAuthCookie, setAuthCookie, signAuthToken } from "@/lib/auth";
 import { logEvent } from "@/lib/sentry";
-import { redirect } from "next/navigation";
 
 type ResponseResult = {
 	success: boolean;

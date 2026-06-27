@@ -1,7 +1,7 @@
 "use client";
 
-import { logoutUser } from "@/actions/auth.actions";
 import { useActionState, useEffect } from "react";
+import { logoutUser } from "@/actions/auth.actions";
 import { toast } from "sonner";
 
 import { Button } from "./ui/button";

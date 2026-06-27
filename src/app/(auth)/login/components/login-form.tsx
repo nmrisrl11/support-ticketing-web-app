@@ -1,9 +1,9 @@
 "use client";
 
-import { loginUser } from "@/actions/auth.actions";
+import { useActionState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useActionState, useEffect } from "react";
+import { loginUser } from "@/actions/auth.actions";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";

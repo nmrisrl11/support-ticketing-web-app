@@ -3,8 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/db/prisma";
 
-import { logEvent } from "@/lib/sentry";
 import { getCurrentUser } from "@/lib/current-user";
+import { logEvent } from "@/lib/sentry";
 
 export async function createTicket(
 	prevState: { success: boolean; message: string },
