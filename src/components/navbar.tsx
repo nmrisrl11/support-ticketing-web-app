@@ -13,7 +13,13 @@ const NAV_ITEMS = [
 	{ name: "Tickets", link: "/tickets" },
 ];
 
-const MobileNav = () => {
+interface MobileNavProps {
+	id: string;
+	email: string;
+	name: string | null;
+}
+
+const MobileNav = ({ user }: { user: MobileNavProps | null }) => {
 	return (
 		<div className="mr-2 flex items-center justify-center md:hidden">
 			<Popover>
@@ -34,10 +40,14 @@ const MobileNav = () => {
 							</div>
 						))}
 
-						<div className="flex flex-col gap-2 py-2">
-							<Button variant="default" className="px-3 text-xs">
-								Log in
-							</Button>
+						<div className="my-3">
+							{user ? (
+								<LogoutButton className="w-full" />
+							) : (
+								<Button variant="default" className="h-auto w-full rounded-lg px-3 py-1.5 text-xs">
+									<Link href="/register">Get Started</Link>
+								</Button>
+							)}
 						</div>
 					</div>
 				</PopoverContent>
@@ -56,7 +66,7 @@ async function Navbar() {
 				"flex w-full max-w-full items-center justify-between bg-linear-to-t from-neutral-200 to-neutral-300 px-6 py-3 md:w-fit md:rounded-b-2xl md:px-12 lg:gap-4 dark:from-neutral-900 dark:to-neutral-950",
 			)}
 		>
-			<MobileNav />
+			<MobileNav user={user} />
 
 			<div className="hidden md:flex">
 				{NAV_ITEMS.map((item, index) => (

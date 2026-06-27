@@ -4,6 +4,8 @@ import { useActionState, useEffect } from "react";
 import { logoutUser } from "@/actions/auth.actions";
 import { toast } from "sonner";
 
+import { cn } from "@/lib/utils";
+
 import { Button } from "./ui/button";
 
 const initialState = {
@@ -11,7 +13,7 @@ const initialState = {
 	message: "",
 };
 
-function LogoutButton() {
+function LogoutButton({ className }: { className?: string }) {
 	const [state, formAction] = useActionState(logoutUser, initialState);
 
 	useEffect(() => {
@@ -22,7 +24,11 @@ function LogoutButton() {
 
 	return (
 		<form action={formAction}>
-			<Button variant="destructive" className="h-auto rounded-lg px-3 py-1.5 text-xs" type="submit">
+			<Button
+				variant="destructive"
+				className={cn("h-auto rounded-lg px-3 py-1.5 text-xs", className)}
+				type="submit"
+			>
 				Logout
 			</Button>
 		</form>
