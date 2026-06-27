@@ -3,6 +3,7 @@
 import { useActionState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createTicket } from "@/actions/ticket.actions";
+import { Priority } from "@/generated/prisma/enums";
 import { toast } from "sonner";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -64,19 +65,17 @@ function NewTicketForm() {
 						<div className="space-y-3">
 							<Label htmlFor="priorityLevel">Priority Level</Label>
 
-							<Select
-								defaultValue="Low"
-								onValueChange={(val) => console.log(val)}
-								name="priorityLevel"
-							>
+							<Select defaultValue={Priority.Low} name="priorityLevel">
 								<SelectTrigger id="priorityLevel" className="w-full py-6">
-									<SelectValue placeholder="Select framework" />
+									<SelectValue placeholder="Select priority level" />
 								</SelectTrigger>
 
 								<SelectContent className="w-full p-3" position="popper">
-									<SelectItem value="Low">Low</SelectItem>
-									<SelectItem value="Medium">Medium</SelectItem>
-									<SelectItem value="High">High</SelectItem>
+									{Object.values(Priority).map((priority) => (
+										<SelectItem key={priority} value={priority}>
+											{priority}
+										</SelectItem>
+									))}
 								</SelectContent>
 							</Select>
 						</div>

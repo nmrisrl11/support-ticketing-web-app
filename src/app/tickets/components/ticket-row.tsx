@@ -1,6 +1,6 @@
 "use client";
 
-import { Priority, PRIORITY_COLORS } from "@/constants/priority";
+import { PRIORITY_COLORS } from "@/constants/priority";
 import { Ticket } from "@/generated/prisma/client";
 import { CircleCheckBigIcon, CircleDashedIcon } from "lucide-react";
 
@@ -40,7 +40,7 @@ function TicketRow({ ticket, setSelectedTicketId }: TicketRowProps) {
 							<span
 								className={cn(
 									"ml-1 block h-1.5 w-4 rounded-full md:hidden",
-									PRIORITY_COLORS[ticket.priority as Priority],
+									PRIORITY_COLORS[ticket.priority],
 								)}
 							/>
 						</div>
@@ -52,12 +52,7 @@ function TicketRow({ ticket, setSelectedTicketId }: TicketRowProps) {
 
 			<TableCell className="hidden md:table-cell">
 				<div className="flex items-center gap-2">
-					<span
-						className={cn(
-							"block h-6 w-1.5 rounded-full",
-							PRIORITY_COLORS[ticket.priority as Priority],
-						)}
-					/>
+					<span className={cn("block h-6 w-1.5 rounded-full", PRIORITY_COLORS[ticket.priority])} />
 					{ticket.priority}
 				</div>
 			</TableCell>

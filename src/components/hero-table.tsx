@@ -1,4 +1,5 @@
-import { Priority, PRIORITY_COLORS } from "@/constants/priority";
+import { PRIORITY_COLORS } from "@/constants/priority";
+import { Priority } from "@/generated/prisma/enums";
 import { CircleCheckBigIcon, CircleDashedIcon } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";

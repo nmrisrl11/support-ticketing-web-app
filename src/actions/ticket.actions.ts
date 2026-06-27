@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/db/prisma";
+import { Priority } from "@/generated/prisma/enums";
 
 import { getCurrentUser } from "@/lib/current-user";
 import { logEvent } from "@/lib/sentry";
@@ -21,7 +22,7 @@ export async function createTicket(
 
 		const subject = formData.get("subject") as string;
 		const description = formData.get("description") as string;
-		const priorityLevel = formData.get("priorityLevel") as string;
+		const priorityLevel = formData.get("priorityLevel") as Priority;
 
 		if (!subject || !description || !priorityLevel) {
 			logEvent(
