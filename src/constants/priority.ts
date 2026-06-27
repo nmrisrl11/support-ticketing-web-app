@@ -1,4 +1,4 @@
-export type Priority = "Low" | "Medium" | "High";
+import { Priority } from "@/generated/prisma/enums";
 
 export const PRIORITY_COLORS: Record<Priority, string> = {
 	High: "bg-red-400",

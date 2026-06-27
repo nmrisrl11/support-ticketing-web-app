@@ -7,6 +7,17 @@ datasource db {
     provider = "postgresql"
 }
 
+enum Priority {
+    High
+    Medium
+    Low
+}
+
+enum Status {
+    Open
+    Closed
+}
+
 model User {
     id        String   @id @default(cuid())
     email     String   @unique
@@ -22,8 +33,8 @@ model Ticket {
     id          Int      @id @default(autoincrement())
     subject     String
     description String
-    priority    String
-    status      String   @default("Open")
+    priority    Priority
+    status      Status   @default(Open)
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
 

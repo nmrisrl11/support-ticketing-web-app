@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getTicketById } from "@/actions/ticket.actions";
-import { Priority, PRIORITY_COLORS } from "@/constants/priority";
+import { PRIORITY_COLORS } from "@/constants/priority";
 import { Ticket } from "@/generated/prisma/client";
 import { CircleCheckBigIcon, CircleDashedIcon } from "lucide-react";
 
@@ -92,7 +92,7 @@ function ViewTicketDialog({ ticketId, onClose }: ViewTicketDialogProps) {
 										<span
 											className={cn(
 												"block h-6 w-1.5 rounded-full",
-												PRIORITY_COLORS[ticketData.priority as Priority],
+												PRIORITY_COLORS[ticketData.priority],
 											)}
 										/>
 
@@ -118,13 +118,11 @@ function ViewTicketDialog({ ticketId, onClose }: ViewTicketDialogProps) {
 							</div>
 						</div>
 
-						{ticketData.status !== "Closed" && (
-							<CloseTicketButton
-								ticketId={ticketData.id}
-								isClosed={ticketData.status === "Closed"}
-								handleOpenChange={handleOpenChange}
-							/>
-						)}
+						<CloseTicketButton
+							ticketId={ticketData.id}
+							isClosed={ticketData.status === "Closed"}
+							handleOpenChange={handleOpenChange}
+						/>
 					</div>
 				) : null}
 			</DialogContent>
