@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react";
 import { getTicketById } from "@/actions/ticket.actions";
 import { Priority, PRIORITY_COLORS } from "@/constants/priority";
+import { Ticket } from "@/generated/prisma/client";
 import { CircleCheckBigIcon, CircleDashedIcon } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
 	Dialog,
 	DialogContent,
@@ -16,14 +16,7 @@ import {
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 
-type Ticket = {
-	id: number;
-	subject: string;
-	description: string;
-	priority: string;
-	status: string;
-	createdAt: Date;
-};
+import CloseTicketButton from "./close-ticket-button";
 
 interface ViewTicketDialogProps {
 	ticketId: string | null;
@@ -43,7 +36,7 @@ function ViewTicketDialog({ ticketId, onClose }: ViewTicketDialogProps) {
 			const data = await getTicketById(ticketId);
 
 			if (data) {
-				setTicketData(data as Ticket);
+				setTicketData(data);
 			}
 
 			setIsLoading(false);
@@ -110,7 +103,7 @@ function ViewTicketDialog({ ticketId, onClose }: ViewTicketDialogProps) {
 								<div className="w-full space-y-1.5 rounded-xl border p-3">
 									<h3 className="font-semibold">Status</h3>
 
-									{ticketData.status === "Done" ? (
+									{ticketData.status === "Closed" ? (
 										<Badge className="bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300">
 											<CircleCheckBigIcon data-icon="inline-start" />
 											{ticketData.status}
@@ -125,9 +118,13 @@ function ViewTicketDialog({ ticketId, onClose }: ViewTicketDialogProps) {
 							</div>
 						</div>
 
-						<Button className="w-full" type="button" onClick={() => handleOpenChange(false)}>
-							Close
-						</Button>
+						{ticketData.status !== "Closed" && (
+							<CloseTicketButton
+								ticketId={ticketData.id}
+								isClosed={ticketData.status === "Closed"}
+								handleOpenChange={handleOpenChange}
+							/>
+						)}
 					</div>
 				) : null}
 			</DialogContent>

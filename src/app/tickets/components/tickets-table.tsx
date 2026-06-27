@@ -31,7 +31,7 @@ function TicketsTable({ tickets }: { tickets: Ticket[] }) {
 
 						<TableHead>
 							<span className="text-primary hidden font-bold md:block">Description</span>
-							<span className="text-primary block font-bold md:hidden">Project</span>
+							<span className="text-primary block font-bold md:hidden">Tickets</span>
 						</TableHead>
 
 						<TableHead className="text-primary hidden font-bold md:table-cell">Priority</TableHead>
