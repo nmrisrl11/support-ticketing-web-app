@@ -4,12 +4,21 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/db/prisma";
 
 import { logEvent } from "@/lib/sentry";
+import { getCurrentUser } from "@/lib/current-user";
 
 export async function createTicket(
 	prevState: { success: boolean; message: string },
 	formData: FormData,
 ): Promise<{ success: boolean; message: string }> {
 	try {
+		const user = await getCurrentUser();
+
+		if (!user) {
+			logEvent("Unauthorized ticket creation attempt", "ticket", {}, "warning");
+
+			return { success: false, message: "You must be logged in to create a ticket." };
+		}
+
 		const subject = formData.get("subject") as string;
 		const description = formData.get("description") as string;
 		const priorityLevel = formData.get("priorityLevel") as string;
@@ -26,7 +35,7 @@ export async function createTicket(
 		}
 
 		const ticket = await prisma.ticket.create({
-			data: { subject, description, priority: priorityLevel },
+			data: { subject, description, priority: priorityLevel, user: { connect: { id: user.id } } },
 		});
 
 		logEvent(
@@ -54,7 +63,18 @@ export async function createTicket(
 
 export async function getTickets() {
 	try {
-		const tickets = await prisma.ticket.findMany({ orderBy: { createdAt: "desc" } });
+		const user = await getCurrentUser();
+
+		if (!user) {
+			logEvent("Unauthorized access to ticket list", "ticket", {}, "warning");
+
+			return [];
+		}
+
+		const tickets = await prisma.ticket.findMany({
+			where: { userId: user.id },
+			orderBy: { createdAt: "desc" },
+		});
 
 		// logEvent("Fetched ticket list", "ticket", { count: tickets.length }, "info");
 
