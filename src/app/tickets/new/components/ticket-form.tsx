@@ -35,7 +35,7 @@ function NewTicketForm() {
 	}, [state.success, router]);
 
 	return (
-		<div className="mt-12 min-w-xs md:min-w-2xl">
+		<div className="mt-12 md:min-w-2xl">
 			<Card>
 				<CardContent>
 					<form action={formAction} className="flex flex-col gap-6">
