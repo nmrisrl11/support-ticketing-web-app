@@ -4,14 +4,10 @@
   <img src="./resolvehub-cover.webp" alt="Cover Image" />
 </p>
 
-<p align="center">
-  <h3 align="center">Simple Task Tracking Made Easy</h3>
+<h3 align="center">Simple Task Tracking Made Easy</h3>
 
-  <p align="center">
-    ResolveHub is a lightweight task tracking application built with Next.js that helps users organize everyday work through simple ticket management.
-    <br />
-    Create, manage, prioritize, and close tickets with a clean and modern interface.
-  </p>
+<p align="center">
+    ResolveHub is a lightweight task tracking app for organizing everyday work. It lets you create and manage simple tickets with priority levels, helping you keep tasks clear, structured, and easy to follow.
 </p>
 
 ---
