@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect, useState } from "react";
 import { getTicketById, updateTicket } from "@/actions/ticket.actions";
+import { PRIORITY_COLORS } from "@/constants/priority";
 import { Ticket } from "@/generated/prisma/client";
 import { Priority } from "@/generated/prisma/enums";
 import { toast } from "sonner";
@@ -19,6 +20,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
 
 interface EditTicketDialogProps {
 	ticketId: string | null;
@@ -128,7 +130,15 @@ function EditTicketDialog({ ticketId, isEditTicketModalOpen, onClose }: EditTick
 									<SelectContent className="w-full p-3" position="popper">
 										{Object.values(Priority).map((priority) => (
 											<SelectItem key={priority} value={priority}>
-												{priority}
+												<span className="flex items-center gap-2">
+													<span
+														className={cn(
+															"block h-6 w-1.5 rounded-full",
+															PRIORITY_COLORS[priority],
+														)}
+													/>
+													<span className="truncate"> {priority}</span>
+												</span>
 											</SelectItem>
 										))}
 									</SelectContent>

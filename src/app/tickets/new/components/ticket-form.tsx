@@ -3,6 +3,7 @@
 import { useActionState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createTicket } from "@/actions/ticket.actions";
+import { PRIORITY_COLORS } from "@/constants/priority";
 import { Priority } from "@/generated/prisma/enums";
 import { toast } from "sonner";
 
@@ -19,6 +20,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
 
 function NewTicketForm() {
 	const router = useRouter();
@@ -73,7 +75,12 @@ function NewTicketForm() {
 								<SelectContent className="w-full p-3" position="popper">
 									{Object.values(Priority).map((priority) => (
 										<SelectItem key={priority} value={priority}>
-											{priority}
+											<span className="flex items-center gap-2">
+												<span
+													className={cn("block h-6 w-1.5 rounded-full", PRIORITY_COLORS[priority])}
+												/>
+												<span className="truncate"> {priority}</span>
+											</span>
 										</SelectItem>
 									))}
 								</SelectContent>

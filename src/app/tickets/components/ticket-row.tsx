@@ -75,23 +75,25 @@ function TicketRow({ ticket, setSelectedTicketId, setActionType }: TicketRowProp
 				)}
 			</TableCell>
 
-			<TableCell className="flex justify-center gap-1.5">
-				<Button
-					size="xs"
-					onClick={() => {
-						setSelectedTicketId(ticket.id.toString());
-						setActionType("VIEW");
-					}}
-				>
-					View Ticket
-				</Button>
+			<TableCell>
+				<div className="flex justify-center gap-1.5">
+					<Button
+						size="xs"
+						onClick={() => {
+							setSelectedTicketId(ticket.id.toString());
+							setActionType("VIEW");
+						}}
+					>
+						View Ticket
+					</Button>
 
-				<TicketActionMenu
-					handleActionType={(actionType) => {
-						setSelectedTicketId(ticket.id.toString());
-						setActionType(actionType);
-					}}
-				/>
+					<TicketActionMenu
+						handleActionType={(actionType) => {
+							setSelectedTicketId(ticket.id.toString());
+							setActionType(actionType);
+						}}
+					/>
+				</div>
 			</TableCell>
 		</TableRow>
 	);

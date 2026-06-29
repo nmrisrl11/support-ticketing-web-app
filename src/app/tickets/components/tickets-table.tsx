@@ -57,25 +57,28 @@ function TicketsTable({ tickets }: { tickets: Ticket[] }) {
 				</TableBody>
 			</Table>
 
-			<ViewTicketDialog
-				key={`View-#${selectedTicketId}`}
-				ticketId={selectedTicketId}
-				isViewTicketModalOpen={actionType === "VIEW"}
-				onClose={() => {
-					setSelectedTicketId(null);
-					setActionType(null);
-				}}
-			/>
+			{actionType === "VIEW" && (
+				<ViewTicketDialog
+					ticketId={selectedTicketId}
+					isViewTicketModalOpen
+					onClose={() => {
+						setSelectedTicketId(null);
+						setActionType(null);
+					}}
+				/>
+			)}
 
-			<EditTicketDialog
-				key={`Edit-#${selectedTicketId}`}
-				ticketId={selectedTicketId}
-				isEditTicketModalOpen={actionType === "EDIT"}
-				onClose={() => {
-					setSelectedTicketId(null);
-					setActionType(null);
-				}}
-			/>
+			{actionType === "EDIT" && (
+				<EditTicketDialog
+					key={`Edit-#${selectedTicketId}`}
+					ticketId={selectedTicketId}
+					isEditTicketModalOpen
+					onClose={() => {
+						setSelectedTicketId(null);
+						setActionType(null);
+					}}
+				/>
+			)}
 		</>
 	) : (
 		<Empty className="bg-secondary border border-dashed">
