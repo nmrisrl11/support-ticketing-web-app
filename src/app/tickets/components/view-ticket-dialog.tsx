@@ -20,12 +20,14 @@ import CloseTicketButton from "./close-ticket-button";
 
 interface ViewTicketDialogProps {
 	ticketId: string | null;
+	isViewTicketModalOpen: boolean;
 	onClose: () => void;
 }
 
-function ViewTicketDialog({ ticketId, onClose }: ViewTicketDialogProps) {
+function ViewTicketDialog({ ticketId, isViewTicketModalOpen, onClose }: ViewTicketDialogProps) {
 	const [isLoading, setIsLoading] = useState(false);
 	const [ticketData, setTicketData] = useState<Ticket | null>(null);
+	const isOpen = ticketId !== null && isViewTicketModalOpen;
 
 	useEffect(() => {
 		if (!ticketId) return;
@@ -44,8 +46,6 @@ function ViewTicketDialog({ ticketId, onClose }: ViewTicketDialogProps) {
 
 		fetchTicket();
 	}, [ticketId]);
-
-	const isOpen = ticketId !== null;
 
 	const handleOpenChange = (open: boolean) => {
 		if (!open) {
