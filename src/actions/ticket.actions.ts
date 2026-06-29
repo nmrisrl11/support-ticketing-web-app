@@ -195,10 +195,11 @@ export async function deleteTicket(ticketId: number): Promise<PrevState> {
 			return { success: false, message: "You must be logged in to delete a ticket." };
 		}
 
-		//! Verify ownership before deleting
-		const ticket = await prisma.ticket.findUnique({ where: { id: ticketId } });
+		const { count } = await prisma.ticket.deleteMany({
+			where: { id: ticketId, userId: user.id },
+		});
 
-		if (!ticket || ticket.userId !== user.id) {
+		if (count === 0) {
 			logEvent(
 				"Unauthorized ticket deletion attempt",
 				"ticket",

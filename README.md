@@ -26,6 +26,8 @@ While the tutorial mainly focuses on learning technologies such as **Prisma**, *
 - ✨ Configured **Prettier** with import sorting
 - 📌 Added enums for ticket priority and status for better consistency
 - 🎫 Changed ticket details from a dedicated page into a modal/dialog experience
+- ✏️ Added ticket editing in a modal using `useTransition` for smooth, non-blocking updates
+- 🗑️ Added ticket deletion with a confirmation modal using `useTransition` for non-blocking loading states
 - ⚡ General code cleanup and project structure improvements
 
 ## 🚀 Features
@@ -35,6 +37,8 @@ While the tutorial mainly focuses on learning technologies such as **Prisma**, *
 - 🎫 Create support tickets
 - 📋 Display all user tickets
 - 🎫 View ticket details in a modal/dialog
+- ✏️ Edit tickets in a modal with smooth, non-blocking updates using `useTransition`
+- 🗑️ Delete tickets with a confirmation modal and non-blocking loading states using `useTransition`
 - ✅ Close completed tickets
 - 🛡️ Protected routes using Next.js `proxy.ts` (middleware)
 - 🚦 Ticket Priority & Status management

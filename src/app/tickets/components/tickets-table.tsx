@@ -38,13 +38,17 @@ function TicketsTable({ tickets }: { tickets: Ticket[] }) {
 		if (!selectedTicketId) return;
 
 		startTransition(async () => {
-			const res = await deleteTicket(Number(selectedTicketId));
+			try {
+				const res = await deleteTicket(Number(selectedTicketId));
 
-			if (res.success) {
-				toast.success(res.message);
-				handleCloseAction();
-			} else {
-				toast.error(res.message);
+				if (res.success) {
+					toast.success(res.message);
+					handleCloseAction();
+				} else {
+					toast.error(res.message);
+				}
+			} catch {
+				toast.error("Something went wrong while deleting the ticket. Please try again.");
 			}
 		});
 	};
