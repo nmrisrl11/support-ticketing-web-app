@@ -181,7 +181,49 @@ export async function updateTicket(prevState: PrevState, formData: FormData): Pr
 		};
 	}
 }
-// export async function deleteTicket(prevState: PrevState, formData: FormData): Promise<PrevState> {}
+export async function deleteTicket(ticketId: number): Promise<PrevState> {
+	try {
+		if (!ticketId) {
+			logEvent("Missing ticket ID", "ticket", {}, "warning");
+			return { success: false, message: "Ticket ID is required" };
+		}
+
+		const user = await getCurrentUser();
+
+		if (!user) {
+			logEvent("Unauthorized ticket deletion attempt", "ticket", {}, "warning");
+			return { success: false, message: "You must be logged in to delete a ticket." };
+		}
+
+		const { count } = await prisma.ticket.deleteMany({
+			where: { id: ticketId, userId: user.id },
+		});
+
+		if (count === 0) {
+			logEvent(
+				"Unauthorized ticket deletion attempt",
+				"ticket",
+				{ ticketId, userId: user.id },
+				"warning",
+			);
+			return { success: false, message: "You are not authorized to delete this ticket." };
+		}
+
+		await prisma.ticket.delete({ where: { id: ticketId } });
+
+		logEvent(`Ticket was deleted successfully: ${ticketId}`, "ticket", { ticketId }, "info");
+
+		revalidatePath("/tickets");
+
+		return { success: true, message: "Ticket deleted successfully." };
+	} catch (error) {
+		logEvent("An error occurred while deleting a ticket.", "ticket", { ticketId }, "error", error);
+		return {
+			success: false,
+			message: "Something went wrong while deleting a ticket. Please try again",
+		};
+	}
+}
 
 export async function closeTicket(prevState: PrevState, formData: FormData): Promise<PrevState> {
 	try {
@@ -214,6 +256,9 @@ export async function closeTicket(prevState: PrevState, formData: FormData): Pro
 		}
 
 		await prisma.ticket.update({ where: { id: ticketId }, data: { status: "Closed" } });
+
+		logEvent(`Ticket was closed successfully: ${ticketId}`, "ticket", { ticketId }, "info");
+
 		revalidatePath("/tickets");
 
 		return { success: true, message: "Ticket closed successfully." };

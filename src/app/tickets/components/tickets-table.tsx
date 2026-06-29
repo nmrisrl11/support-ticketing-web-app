@@ -1,10 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import Link from "next/link";
+import { deleteTicket } from "@/actions/ticket.actions";
 import { Ticket } from "@/generated/prisma/client";
 import { HashIcon } from "lucide-react";
+import { toast } from "sonner";
 
+import ConfirmationDialog from "@/components/confirmation-dialog";
 import { Button } from "@/components/ui/button";
 import {
 	Empty,
@@ -24,6 +27,31 @@ import ViewTicketDialog from "./view-ticket-dialog";
 function TicketsTable({ tickets }: { tickets: Ticket[] }) {
 	const [selectedTicketId, setSelectedTicketId] = useState<string | null>(null);
 	const [actionType, setActionType] = useState<ActionType | null>(null);
+	const [isPending, startTransition] = useTransition();
+
+	const handleCloseAction = () => {
+		setSelectedTicketId(null);
+		setActionType(null);
+	};
+
+	const handleDelete = () => {
+		if (!selectedTicketId) return;
+
+		startTransition(async () => {
+			try {
+				const res = await deleteTicket(Number(selectedTicketId));
+
+				if (res.success) {
+					toast.success(res.message);
+					handleCloseAction();
+				} else {
+					toast.error(res.message);
+				}
+			} catch {
+				toast.error("Something went wrong while deleting the ticket. Please try again.");
+			}
+		});
+	};
 
 	return tickets.length > 0 ? (
 		<>
@@ -77,6 +105,18 @@ function TicketsTable({ tickets }: { tickets: Ticket[] }) {
 						setSelectedTicketId(null);
 						setActionType(null);
 					}}
+				/>
+			)}
+
+			{actionType === "DELETE" && (
+				<ConfirmationDialog
+					isOpen={true}
+					onClose={handleCloseAction}
+					onConfirm={handleDelete}
+					title="Delete Ticket"
+					description={`Are you sure you want to delete Ticket #${selectedTicketId}? This action cannot be undone.`}
+					confirmText="Delete"
+					isLoading={isPending}
 				/>
 			)}
 		</>
