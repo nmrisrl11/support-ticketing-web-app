@@ -16,11 +16,14 @@ import {
 } from "@/components/ui/empty";
 import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
+import { ActionType } from "../types/ticket.types";
+import EditTicketDialog from "./edit-ticket-dialog";
 import TicketRow from "./ticket-row";
 import ViewTicketDialog from "./view-ticket-dialog";
 
 function TicketsTable({ tickets }: { tickets: Ticket[] }) {
 	const [selectedTicketId, setSelectedTicketId] = useState<string | null>(null);
+	const [actionType, setActionType] = useState<ActionType | null>(null);
 
 	return tickets.length > 0 ? (
 		<>
@@ -44,12 +47,35 @@ function TicketsTable({ tickets }: { tickets: Ticket[] }) {
 
 				<TableBody>
 					{tickets.map((ticket) => (
-						<TicketRow key={ticket.id} ticket={ticket} setSelectedTicketId={setSelectedTicketId} />
+						<TicketRow
+							key={ticket.id}
+							ticket={ticket}
+							setSelectedTicketId={setSelectedTicketId}
+							setActionType={setActionType}
+						/>
 					))}
 				</TableBody>
 			</Table>
 
-			<ViewTicketDialog ticketId={selectedTicketId} onClose={() => setSelectedTicketId(null)} />
+			<ViewTicketDialog
+				key={`View-#${selectedTicketId}`}
+				ticketId={selectedTicketId}
+				isViewTicketModalOpen={actionType === "VIEW"}
+				onClose={() => {
+					setSelectedTicketId(null);
+					setActionType(null);
+				}}
+			/>
+
+			<EditTicketDialog
+				key={`Edit-#${selectedTicketId}`}
+				ticketId={selectedTicketId}
+				isEditTicketModalOpen={actionType === "EDIT"}
+				onClose={() => {
+					setSelectedTicketId(null);
+					setActionType(null);
+				}}
+			/>
 		</>
 	) : (
 		<Empty className="bg-secondary border border-dashed">

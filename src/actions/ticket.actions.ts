@@ -7,10 +7,12 @@ import { Priority } from "@/generated/prisma/enums";
 import { getCurrentUser } from "@/lib/current-user";
 import { logEvent } from "@/lib/sentry";
 
-export async function createTicket(
-	prevState: { success: boolean; message: string },
-	formData: FormData,
-): Promise<{ success: boolean; message: string }> {
+interface PrevState {
+	success: boolean;
+	message: string;
+}
+
+export async function createTicket(prevState: PrevState, formData: FormData): Promise<PrevState> {
 	try {
 		const user = await getCurrentUser();
 
@@ -105,10 +107,83 @@ export async function getTicketById(id: string) {
 	}
 }
 
-export async function closeTicket(
-	prevState: { success: boolean; message: string },
-	formData: FormData,
-): Promise<{ success: boolean; message: string }> {
+export async function updateTicket(prevState: PrevState, formData: FormData): Promise<PrevState> {
+	try {
+		const ticketId = Number(formData.get("ticketId"));
+		if (!ticketId) {
+			logEvent("Missing ticket ID", "ticket", {}, "warning");
+			return { success: false, message: "Ticket ID is required" };
+		}
+
+		const user = await getCurrentUser();
+		if (!user) {
+			logEvent("Unauthorized ticket update attempt", "ticket", {}, "warning");
+
+			return { success: false, message: "You must be logged in to update a ticket." };
+		}
+
+		const subject = formData.get("subject") as string;
+		const description = formData.get("description") as string;
+		const priorityLevel = formData.get("priorityLevel") as Priority;
+
+		if (!subject || !description || !priorityLevel) {
+			logEvent(
+				"Validation Error: Missing ticket fields",
+				"ticket",
+				{ subject, description, priority: priorityLevel },
+				"warning",
+			);
+
+			return { success: false, message: "All fields are required." };
+		}
+
+		const existingTicket = await prisma.ticket.findFirst({
+			where: {
+				id: ticketId,
+				userId: user.id,
+			},
+		});
+
+		if (!existingTicket) {
+			return {
+				success: false,
+				message: "Ticket not found.",
+			};
+		}
+
+		const ticket = await prisma.ticket.update({
+			where: {
+				id: ticketId,
+			},
+			data: {
+				subject,
+				description,
+				priority: priorityLevel,
+			},
+		});
+
+		logEvent(
+			`Ticket was updated successfully: ${ticket.id}`,
+			"ticket",
+			{ ticketId: ticket.id },
+			"info",
+		);
+
+		revalidatePath("/tickets");
+
+		return { success: true, message: "Ticket updated successfully." };
+	} catch (error) {
+		logEvent("An error occured while updating a ticket.", "ticket", {}, "error", error);
+
+		return {
+			success: false,
+			message: "Something went wrong while updating a ticket. Please try again",
+		};
+	}
+}
+// export async function deleteTicket(prevState: PrevState, formData: FormData): Promise<PrevState> {}
+
+export async function closeTicket(prevState: PrevState, formData: FormData): Promise<PrevState> {
 	try {
 		const ticketId = Number(formData.get("ticketId"));
 

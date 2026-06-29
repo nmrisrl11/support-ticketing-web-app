@@ -9,12 +9,16 @@ import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 
+import { ActionType } from "../types/ticket.types";
+import TicketActionMenu from "./ticket-action-menu";
+
 interface TicketRowProps {
 	ticket: Ticket;
-	setSelectedTicketId: (val: string) => void;
+	setSelectedTicketId: (ticketId: string) => void;
+	setActionType: (actionType: ActionType) => void;
 }
 
-function TicketRow({ ticket, setSelectedTicketId }: TicketRowProps) {
+function TicketRow({ ticket, setSelectedTicketId, setActionType }: TicketRowProps) {
 	return (
 		<TableRow>
 			<TableCell className="hidden md:table-cell">{ticket.subject}</TableCell>
@@ -71,10 +75,23 @@ function TicketRow({ ticket, setSelectedTicketId }: TicketRowProps) {
 				)}
 			</TableCell>
 
-			<TableCell>
-				<Button size="xs" onClick={() => setSelectedTicketId(ticket.id.toString())}>
+			<TableCell className="flex justify-center gap-1.5">
+				<Button
+					size="xs"
+					onClick={() => {
+						setSelectedTicketId(ticket.id.toString());
+						setActionType("VIEW");
+					}}
+				>
 					View Ticket
 				</Button>
+
+				<TicketActionMenu
+					handleActionType={(actionType) => {
+						setSelectedTicketId(ticket.id.toString());
+						setActionType(actionType);
+					}}
+				/>
 			</TableCell>
 		</TableRow>
 	);
